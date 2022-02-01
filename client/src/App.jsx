@@ -5,6 +5,8 @@ import ItemList from './components/ItemList';
 import UploadForm from './components/UploadForm';
 import { Todo } from './global.classes';
 
+const apiURL = new URL(process.env.REACT_APP_API_BASE_URL);
+
 export default function App() {
 
   const [formToggle, setFormToggle] = useState(false);
@@ -26,6 +28,8 @@ export default function App() {
     else {
       setList(JSON.parse(localList));
     }
+
+    console.log(`API URL: ${apiURL.toString()}`);
   },[]);
 
   function toggleForm() {
@@ -45,6 +49,16 @@ export default function App() {
     setList(newList);
   }
 
+  async function testAPI() {
+    let url = apiURL;
+    url.pathname = "/test";
+    console.log('Making API call to ' + url.toString());
+    const res = await fetch(url.toString());
+    const data = await res.json();
+
+    alert(`Hello ${data.hello}`);
+  }
+
   return (
     <div className='App'>
       <h1>Task App</h1>
@@ -55,6 +69,7 @@ export default function App() {
         {formToggle ? 'Cancel' : 'Add an item'}
       </Button>
       {formToggle && (<UploadForm submitCallback={addItem} />)}
+      <button onClick={testAPI}>test api</button>
     </div>
   )
 }
