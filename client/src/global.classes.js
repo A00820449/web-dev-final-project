@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export class Todo {
     /**
      * @param {{title: string, description: string}} data 
@@ -12,5 +14,7 @@ export class Todo {
             this.description = data.description;
         else
             this.description = '';
+        
+        this._id = uuidv4();
     }
 }

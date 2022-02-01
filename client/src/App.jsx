@@ -3,7 +3,7 @@ import './App.css';
 import Button from './components/Button';
 import ItemList from './components/ItemList';
 import UploadForm from './components/UploadForm';
-import { Todo } from './global.classes'
+import { Todo } from './global.classes';
 
 export default function App() {
 
