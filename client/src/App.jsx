@@ -1,29 +1,41 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Button from './components/Button';
 import ItemList from './components/ItemList';
 import UploadForm from './components/UploadForm';
 import { Todo } from './global.classes'
 
-function App() {
+export default function App() {
 
   const [formToggle, setFormToggle] = useState(false);
 
-  const testItems = [
-    new Todo({title: "Test1", description: "TODO"}),
-    new Todo({title: "Test2", description: "TODO"}),
-    new Todo({title: "Test3", description: "TODO"})
-  ]
-
-  const [list, setList] = useState(testItems);
+  const [list, setList] = useState([]);
+  
+  // Lifecycle hook
+  useEffect(()=>{
+    const localList = localStorage.getItem("todoList");
+    if (!localList) {
+      const testItems = [
+        new Todo({title: "Test1", description: "TODO"}),
+        new Todo({title: "Test2", description: "TODO"}),
+        new Todo({title: "Test3", description: "TODO"})
+      ];
+      localStorage.setItem("todoList", JSON.stringify(testItems));
+      setList(testItems);
+    }
+    else {
+      setList(JSON.parse(localList));
+    }
+  },[]);
 
   function toggleForm() {
     setFormToggle(!formToggle);
   }
 
   function addItem(item) {
-    setList([...list, item]);
-    console.log('added item', item);
+    const newList = [...list, item];
+    localStorage.setItem("todoList", JSON.stringify(newList));
+    setList(newList);
   }
 
   return (
@@ -37,5 +49,3 @@ function App() {
     </div>
   )
 }
-
-export default App;
