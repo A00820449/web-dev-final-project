@@ -1,3 +1,4 @@
+import { TrashIcon } from '@primer/octicons-react'
 import "./Item.css"
 
 export default function Item(props) {
@@ -9,9 +10,13 @@ export default function Item(props) {
     return (
         <li className="card list-group-item">
             <h3>{props.item.title}</h3>
-            {(props.item.description !== "" && 
-            <><hr /><i>{props.item.description}</i></>)}
-            <button className="btn btn-danger" onClick={removeThis}>x</button>
+            
+            {props.item.description !== "" && 
+            <div><hr /><i>{props.item.description}</i></div>}
+            
+            <div>
+                <button className="btn btn-danger" onClick={removeThis}><TrashIcon /></button>
+            </div>
         </li>
     );
 }
