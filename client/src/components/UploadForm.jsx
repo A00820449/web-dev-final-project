@@ -21,7 +21,7 @@ export default function UploadForm(props) {
     }
 
     return (
-        <form action="/" method="post" onSubmit={handler}>
+        <form action="/" method="post" onSubmit={handler} className='UploadForm card'>
             <h2>Write your note here</h2>
             <div className='form-group'>
                 <label htmlFor="form-title">Title:</label>
