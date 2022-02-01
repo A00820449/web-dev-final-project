@@ -4,6 +4,7 @@ import Button from './components/Button';
 import ItemList from './components/ItemList';
 import UploadForm from './components/UploadForm';
 import { Todo } from './global.classes';
+import axios from "axios";
 
 const apiURL = new URL(process.env.REACT_APP_API_BASE_URL);
 
@@ -50,13 +51,12 @@ export default function App() {
   }
 
   async function testAPI() {
-    let url = apiURL;
+    const url = apiURL;
     url.pathname = "/test";
     console.log('Making API call to ' + url.toString());
-    const res = await fetch(url.toString());
-    const data = await res.json();
+    const res = await axios.get(url.toString(), {responseType: 'json'});
 
-    alert(`Hello ${data.hello}`);
+    alert(`Hello ${res.data.hello}`);
   }
 
   return (
