@@ -34,7 +34,7 @@ export default function UploadForm(props) {
             </div>
 
             <div className='form-group'>
-                <input className='btn btn-primary' type="submit" value="Submit" />
+                <input className='btn btn-primary' type="submit" value="Add" />
             </div>
         </form>
     );

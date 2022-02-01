@@ -38,10 +38,19 @@ export default function App() {
     setList(newList);
   }
 
+  function removeItem(id) {
+    const newList = list.filter(item => item._id !== id);
+
+    localStorage.setItem("todoList", JSON.stringify(newList));
+    setList(newList);
+  }
+
   return (
     <div className='App'>
       <h1>Task App</h1>
-      <ItemList items={list} />
+      {list.length > 0 ?
+        <ItemList items={list} removeCallback={removeItem}/> :
+        <div><i>Get started by clicking the button below!</i></div>}
       <Button onClick={toggleForm} cancelState={formToggle}>
         {formToggle ? 'Cancel' : 'Add an item'}
       </Button>
