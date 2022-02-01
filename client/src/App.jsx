@@ -42,7 +42,7 @@ export default function App() {
     <div className='App'>
       <h1>Task App</h1>
       <ItemList items={list} />
-      <Button onClick={toggleForm} state={formToggle}>
+      <Button onClick={toggleForm} cancelState={formToggle}>
         {formToggle ? 'Cancel' : 'Add an item'}
       </Button>
       {formToggle && (<UploadForm submitCallback={addItem} />)}
