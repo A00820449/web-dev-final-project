@@ -3,15 +3,16 @@ import './App.css';
 import Button from './components/Button';
 import ItemList from './components/ItemList';
 import UploadForm from './components/UploadForm';
+import { ItemData } from './global.classes'
 
 function App() {
 
   const [formToggle, setFormToggle] = useState(false);
 
   const testItems = [
-    {title: "Test1"},
-    {title: "Test2"},
-    {title: "Test3"}
+    new ItemData({title: "Test1", description: "TODO"}),
+    new ItemData({title: "Test2", description: "TODO"}),
+    new ItemData({title: "Test3", description: "TODO"})
   ]
 
   const [list, setList] = useState(testItems);
