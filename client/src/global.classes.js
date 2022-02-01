@@ -1,4 +1,4 @@
-export class ItemData {
+export class Todo {
     /**
      * @param {{title: string, description: string}} data 
      */

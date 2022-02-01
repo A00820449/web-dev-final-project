@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import './UploadForm.css'
-import { ItemData } from '../global.classes';
+import { Todo } from '../global.classes';
 
 export default function UploadForm(props) {
 
@@ -14,7 +14,7 @@ export default function UploadForm(props) {
 
         if (newTitle === "") {return;}
 
-        const newItem =  new ItemData({title: newTitle, description: newDescription});
+        const newItem =  new Todo({title: newTitle, description: newDescription});
         props.submitCallback(newItem);
         todoTitle.current.value = '';
         todoDesc.current.value = '';
