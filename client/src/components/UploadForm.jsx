@@ -25,7 +25,7 @@ export default function UploadForm(props) {
             <h2>Write your note here</h2>
             <div className='form-group'>
                 <label htmlFor="form-title">Title:</label>
-                <input className='form-control' type="text" ref={todoTitle} id="form-title" />
+                <input className='form-control' type="text" ref={todoTitle} id="form-title" required/>
             </div>
 
             <div className='form-group'>
