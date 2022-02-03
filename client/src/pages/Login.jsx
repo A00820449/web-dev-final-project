@@ -25,17 +25,30 @@ export default function Login(props) {
 
         try {
             const { data } = await axios.post(authURL.toString(), {username, password});
-            alert(`Server response: ${JSON.stringify(data)}`);
+            alert(`Server response: ${data.message}`);
         }
         catch(e) {
-            alert("An error occurred. Try again later.");
             console.error(e);
+
+            if (e.response?.status === 400) {
+                return alert("Bad request");
+            }
+
+            if (e.response?.status === 404) {
+                return alert("User not found");
+            }
+
+            if (e.response?.status === 401) {
+                return alert("Incorrect password");
+            }
+
+            return alert("An error occurred. Try again later.");
         }
     }
 
     return (
         <div className="Login">
-            <div class="circle"><PersonIcon size={128}/></div>
+            <div className="circle"><PersonIcon size={128}/></div>
             <form onSubmit={formHandler}>
                 <input type="text" ref={usernameInput} className="form-control" placeholder="Username" required/>
                 <input type="password" ref={passwordInput} className="form-control" placeholder="Password" required/>
