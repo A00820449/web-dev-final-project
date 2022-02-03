@@ -1,0 +1,17 @@
+.Navbar {
+    box-sizing: border-box;
+    background-color: #dddddd;
+    display: flex;
+    height: 3rem;
+    align-items: center;
+    padding: 1rem 0;
+    justify-content: flex-end;
+}
+
+.Navbar > * {
+    margin: 0 0.5rem;
+}
+
+.hamburger {
+    margin-right: auto;
+}

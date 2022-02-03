@@ -42,7 +42,7 @@ app.post("/auth", async (req,res)=>{
     
     const token = jwt.sign({_id: user._id.toString(), username: user.username, isAdmin: user.isAdmin}, JWT_SECRET, {expiresIn: "30d"});
 
-    return res.json({error: false, message: "Success", token});
+    return res.json({error: false, message: "Success", token, username});
 });
 
 app.listen(PORT, ()=>{

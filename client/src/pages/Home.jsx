@@ -6,6 +6,7 @@ import UploadForm from '../components/UploadForm';
 import { Todo } from '../global.classes';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 export default function Home(props) {
     const apiURL = props.apiURL;
@@ -20,6 +21,7 @@ export default function Home(props) {
       if (!token) {
         return navigate("/login");
       }
+
       const localList = localStorage.getItem("todoList");
       if (!localList) {
         const testItems = [
@@ -68,16 +70,19 @@ export default function Home(props) {
     }
   
     return (
-      <div className='Home'>
-        <h1>Task App</h1>
-        {list.length > 0 ?
-          <ItemList items={list} removeCallback={removeItem}/> :
-          <div><i>Get started by clicking the button below!</i></div>}
-        <Button onClick={toggleForm} cancelState={formToggle}>
-          {formToggle ? 'Cancel' : 'Add an item'}
-        </Button>
-        {formToggle && (<UploadForm submitCallback={addItem} />)}
-        <button onClick={testAPI}>test api</button>
+      <div>
+        <Navbar name={localStorage.getItem("username")} />
+        <div className='Home'>
+          <h1>Task App</h1>
+          {list.length > 0 ?
+            <ItemList items={list} removeCallback={removeItem}/> :
+            <div><i>Get started by clicking the button below!</i></div>}
+          <Button onClick={toggleForm} cancelState={formToggle}>
+            {formToggle ? 'Cancel' : 'Add an item'}
+          </Button>
+          {formToggle && (<UploadForm submitCallback={addItem} />)}
+          <button onClick={testAPI}>test api</button>
+        </div>
       </div>
     );
 }

@@ -36,6 +36,7 @@ export default function Login(props) {
             const { data } = await axios.post(authURL.toString(), {username, password});
             if (!data.error) {
                 localStorage.setItem("token", data.token);
+                localStorage.setItem("username", data.username);
                 return navigate("/");
             }
         }
