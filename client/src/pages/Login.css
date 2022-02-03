@@ -1,0 +1,18 @@
+.Login {
+    width: 100vw;
+    height: 100vh;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+}
+
+form {
+    width: 100%;
+    max-width: 480px;
+}
+
+input {
+    margin: 0.5rem
+}

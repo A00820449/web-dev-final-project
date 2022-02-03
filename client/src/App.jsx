@@ -9,7 +9,7 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home apiURL={apiURL} />} />
+        <Route exact path="/" element={<Home apiURL={apiURL} />} />
         <Route path="/login" element={<Login apiURL={apiURL} />} />
       </Routes>
     </Router>
