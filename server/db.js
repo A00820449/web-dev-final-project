@@ -20,8 +20,17 @@ userSchema.method("validatePassword", async function (password){
 });
 const User = mongoose.model("User", userSchema);
 
+const todoSchema = new mongoose.Schema({
+    _id: String,
+    title: {type: String, required: true},
+    description: String,
+    timestamp: {type: Date, default: Date.now},
+    userId: String
+});
+const Todo = mongoose.model("Todo", todoSchema);
+
 mongoose.connect(mongoConnectionString, ()=>{
     console.log('Connected to database');
 });
 
-module.exports = {User};
+module.exports = {User,Todo};

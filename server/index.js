@@ -40,7 +40,7 @@ app.post("/auth", async (req,res)=>{
         return res.status(401).json({error: true, message: "Invalid password"});
     }
     
-    const token = jwt.sign({username: user.username, isAdmin: user.isAdmin}, JWT_SECRET, {expiresIn: "30d"});
+    const token = jwt.sign({_id: user._id.toString(), username: user.username, isAdmin: user.isAdmin}, JWT_SECRET, {expiresIn: "30d"});
 
     return res.json({error: false, message: "Success", token});
 });
