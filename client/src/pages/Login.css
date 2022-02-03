@@ -9,6 +9,7 @@
 }
 
 .circle {
+    box-sizing: border-box;
     border-radius: 256px;
     padding: 16px;
     background-color: lightgray;
@@ -16,9 +17,21 @@
 
 form {
     width: 100%;
-    max-width: 480px;
+    max-width: 330px;
 }
 
-input {
-    margin: 0.5rem
+.form-group {
+    margin: 1rem 0;
+    width: 100%;
+}
+
+input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
