@@ -1,6 +1,7 @@
 import "./Login.css"
 import { PersonIcon } from "@primer/octicons-react";
 import { useRef } from "react";
+import axios from "axios";
 
 export default function Login(props) {
 
@@ -16,10 +17,20 @@ export default function Login(props) {
     /**
      * @param {SubmitEvent} e 
      */
-    function formHandler(e) {
+    async function formHandler(e) {
         e.preventDefault();
 
-        alert(`User: ${userInput.current.value}\nPassword: ${passwordInput.current.value}\nURL: ${authURL}`);
+        const user = userInput.current.value;
+        const password = passwordInput.current.value;
+
+        try {
+            const { data } = await axios.post(authURL.toString(), {user, password});
+            alert(`Server response: ${JSON.stringify(data)}`);
+        }
+        catch(e) {
+            alert("An error occurred. Try again later.");
+            console.error(e);
+        }
     }
 
     return (
@@ -28,7 +39,7 @@ export default function Login(props) {
             <form onSubmit={formHandler}>
                 <input type="text" ref={userInput} className="form-control" placeholder="Username" required/>
                 <input type="password" ref={passwordInput} className="form-control" placeholder="Password" required/>
-                <input class="btn btn-lg btn-primary btn-block" type="submit" value="Log in" />
+                <input className="btn btn-lg btn-primary btn-block" type="submit" value="Log in" />
             </form>
         </div>
     );

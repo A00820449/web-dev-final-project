@@ -1,6 +1,9 @@
+require('dotenv').config();
+
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const models = require("./db.js");
 
 const app = express();
 
@@ -12,6 +15,10 @@ app.use(express.json());
 
 app.get("/test",(req, res)=>{
     res.json({hello: "world"});
+});
+
+app.post("/auth", (req,res)=>{
+    res.json(req.body);
 });
 
 app.listen(PORT, ()=>{
