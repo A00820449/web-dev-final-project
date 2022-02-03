@@ -5,16 +5,21 @@ import ItemList from '../components/ItemList';
 import UploadForm from '../components/UploadForm';
 import { Todo } from '../global.classes';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 export default function Home(props) {
     const apiURL = props.apiURL;
 
     const [formToggle, setFormToggle] = useState(false);
-
     const [list, setList] = useState([]);
+    const navigate = useNavigate();
     
     // Lifecycle hook
     useEffect(()=>{
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return navigate("/login");
+      }
       const localList = localStorage.getItem("todoList");
       if (!localList) {
         const testItems = [
@@ -28,7 +33,7 @@ export default function Home(props) {
       else {
         setList(JSON.parse(localList));
       }
-    },[]);
+    },[navigate]);
   
     function toggleForm() {
       setFormToggle(!formToggle);

@@ -11,7 +11,7 @@ export default function Login(props) {
     const authURL = props.apiURL;
     authURL.pathname = "/auth";
 
-    const userInput = useRef(HTMLInputElement);
+    const usernameInput = useRef(HTMLInputElement);
     const passwordInput = useRef(HTMLInputElement);
 
     /**
@@ -20,11 +20,11 @@ export default function Login(props) {
     async function formHandler(e) {
         e.preventDefault();
 
-        const user = userInput.current.value;
+        const username = usernameInput.current.value;
         const password = passwordInput.current.value;
 
         try {
-            const { data } = await axios.post(authURL.toString(), {user, password});
+            const { data } = await axios.post(authURL.toString(), {username, password});
             alert(`Server response: ${JSON.stringify(data)}`);
         }
         catch(e) {
@@ -35,9 +35,9 @@ export default function Login(props) {
 
     return (
         <div className="Login">
-            <PersonIcon size={128}/>
+            <div class="circle"><PersonIcon size={128}/></div>
             <form onSubmit={formHandler}>
-                <input type="text" ref={userInput} className="form-control" placeholder="Username" required/>
+                <input type="text" ref={usernameInput} className="form-control" placeholder="Username" required/>
                 <input type="password" ref={passwordInput} className="form-control" placeholder="Password" required/>
                 <input className="btn btn-lg btn-primary btn-block" type="submit" value="Log in" />
             </form>

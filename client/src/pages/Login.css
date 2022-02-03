@@ -8,6 +8,12 @@
     flex-flow: column;
 }
 
+.circle {
+    border-radius: 256px;
+    padding: 16px;
+    background-color: lightgray;
+}
+
 form {
     width: 100%;
     max-width: 480px;
