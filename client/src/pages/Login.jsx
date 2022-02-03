@@ -1,7 +1,8 @@
 import "./Login.css"
 import { PersonIcon } from "@primer/octicons-react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Login(props) {
 
@@ -13,6 +14,14 @@ export default function Login(props) {
 
     const usernameInput = useRef(HTMLInputElement);
     const passwordInput = useRef(HTMLInputElement);
+    const navigate = useNavigate();
+    
+    useEffect(()=>{
+        const token = localStorage.getItem("token");
+        if (token) {
+            navigate("/");
+        } 
+    },[navigate]);
 
     /**
      * @param {SubmitEvent} e 
@@ -25,7 +34,10 @@ export default function Login(props) {
 
         try {
             const { data } = await axios.post(authURL.toString(), {username, password});
-            alert(`Server response: ${data.message}`);
+            if (!data.error) {
+                localStorage.setItem("token", data.token);
+                return navigate("/");
+            }
         }
         catch(e) {
             console.error(e);

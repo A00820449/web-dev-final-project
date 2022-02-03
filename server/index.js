@@ -3,11 +3,14 @@ require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const jwt = require("jsonwebtoken");
+
 const { User } = require("./db.js");
 
 const app = express();
 
 const PORT = parseInt(process.env.PORT) || 3001;
+const JWT_SECRET = process.env.JWT_SECRET || "secret";
 
 app.use(cors());
 app.use(morgan("dev"));
@@ -37,7 +40,9 @@ app.post("/auth", async (req,res)=>{
         return res.status(401).json({error: true, message: "Invalid password"});
     }
     
-    return res.json({error: false, message: "Success", token: "1234"});
+    const token = jwt.sign({username: user.username, isAdmin: user.isAdmin}, JWT_SECRET, {expiresIn: "30d"});
+
+    return res.json({error: false, message: "Success", token});
 });
 
 app.listen(PORT, ()=>{
