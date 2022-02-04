@@ -7,6 +7,13 @@ const userSchema = new mongoose.Schema({
     username: {type: String, unique: true},
     passwordHash: String,
     isAdmin: Boolean,
+    todos: [{
+        _id: String,
+        title: String,
+        description: String,
+        timestamp: Number,
+        done: Boolean
+    }]
 });
 userSchema.method("setPassword", async function (password){
     const hash = await bcrypt.hash(password, 10);
@@ -20,17 +27,8 @@ userSchema.method("validatePassword", async function (password){
 });
 const User = mongoose.model("User", userSchema);
 
-const todoSchema = new mongoose.Schema({
-    _id: String,
-    title: {type: String, required: true},
-    description: String,
-    timestamp: {type: Date, default: Date.now},
-    userId: String
-});
-const Todo = mongoose.model("Todo", todoSchema);
-
 mongoose.connect(mongoConnectionString, ()=>{
     console.log('Connected to database');
 });
 
-module.exports = {User,Todo};
+module.exports = {User};

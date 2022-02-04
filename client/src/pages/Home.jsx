@@ -3,12 +3,15 @@ import './Home.css';
 import Button from '../components/Button';
 import ItemList from '../components/ItemList';
 import UploadForm from '../components/UploadForm';
-import { Todo } from '../global.classes';
+//import { Todo } from '../global.classes';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
 export default function Home(props) {
+    /**
+     * @type {URL}
+     */
     const apiURL = props.apiURL;
 
     const [formToggle, setFormToggle] = useState(false);
@@ -17,30 +20,42 @@ export default function Home(props) {
     
     // Lifecycle hook
     useEffect(()=>{
-      const token = localStorage.getItem("token");
-      if (!token) {
-        return navigate("/login");
+      if (!localStorage.getItem("token")) {return navigate("/login");}
+      async function sync() {
+        try {
+          await downloadList();
+        }
+        catch(e) {
+          console.error(e);
+          loadLocalList();
+        }
       }
+      sync();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []);
 
-      const localList = localStorage.getItem("todoList");
-      if (!localList) {
-        const testItems = [
-          new Todo({title: "Test1", description: "TODO"}),
-          new Todo({title: "Test2", description: "TODO"}),
-          new Todo({title: "Test3", description: "TODO"})
-        ];
-        localStorage.setItem("todoList", JSON.stringify(testItems));
-        setList(testItems);
-      }
-      else {
-        setList(JSON.parse(localList));
-      }
-    },[navigate]);
-  
     function toggleForm() {
       setFormToggle(!formToggle);
     }
-  
+    
+    async function downloadList() {
+      const syncURL = apiURL;
+      syncURL.pathname = "/sync";
+      await axios.get(syncURL,{headers: ""});
+      return;
+    }
+
+    function loadLocalList() {
+      const localList = localStorage.getItem("todoList");
+      if (!localList) {
+        setItems([]);
+      }
+      else {
+        setItems(JSON.parse(localList));
+      }
+    }
+
     function addItem(item) {
       const newList = [...list, item];
       localStorage.setItem("todoList", JSON.stringify(newList));
@@ -53,22 +68,14 @@ export default function Home(props) {
       localStorage.setItem("todoList", JSON.stringify(newList));
       setList(newList);
     }
-  
-    async function testAPI() {
-      try {
-        const url = apiURL;
-        url.pathname = "/test";
-        console.log('Making API call to ' + url.toString());
-        const res = await axios.get(url.toString(), {responseType: 'json'});
-  
-        alert(`Hello ${res.data.hello}`);
-      }
-      catch(e) {
-        console.error(e);
-        alert("There was an error making the request");
-      }
+
+    function setItems(items) {
+      const newList = items;
+
+      localStorage.setItem("todoList", JSON.stringify(newList));
+      setList(newList);
     }
-  
+
     return (
       <div>
         <Navbar name={localStorage.getItem("username")} />
@@ -81,7 +88,6 @@ export default function Home(props) {
             {formToggle ? 'Cancel' : 'Add an item'}
           </Button>
           {formToggle && (<UploadForm submitCallback={addItem} />)}
-          <button onClick={testAPI}>test api</button>
         </div>
       </div>
     );

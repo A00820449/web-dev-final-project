@@ -17,9 +17,10 @@ export class Todo {
         }
         else {
             this.description = '';
-        } 
+        }
         
         this.timestamp = Date.now();
         this._id = uuidv4();
+        this.done = false;
     }
 }
