@@ -45,6 +45,46 @@ app.post("/auth", async (req,res)=>{
     return res.json({error: false, message: "Success", token, username});
 });
 
+app.get("/sync", async (req, res)=>{
+    const token = req.headers["authorization"]?.match(/^Bearer ([A-Za-z0-9-_.]+)$/)?.[1] || "";
+    const username = req.query.username || "";
+
+    console.log(req.headers);
+    console.log(req.params);
+
+    if (!token) {
+        return res.sendStatus(401); // Unauthorized
+    }
+
+    if (!username) {
+        return res.sendStatus(400); // Bad request
+    }
+
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+
+        if (decoded.username !== username) {
+            return res.sendStatus(403); // Forbidden
+        }
+
+        const user = await User.findOne({username});
+        
+        if (!user) {
+            return res.sendStatus(404); // Not found
+        }
+        
+        const list = user.todos || [];
+
+        return res.json(list);
+
+    }
+    catch(e) {
+        console.error(e);
+        return res.sendStatus(401); // Unauthorized
+    }
+
+});
+
 app.listen(PORT, ()=>{
     console.log(`Listening on:`, PORT);
 })

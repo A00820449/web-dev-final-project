@@ -40,9 +40,20 @@ export default function Home(props) {
     }
     
     async function downloadList() {
-      const syncURL = apiURL;
-      syncURL.pathname = "/sync";
-      await axios.get(syncURL,{headers: ""});
+      try {
+        const syncURL = apiURL;
+        syncURL.pathname = "/sync";
+        const {data} = await axios.get(syncURL.toString(),{
+          params: {username: localStorage.getItem("username")},
+          headers: {'Authorization': `Bearer ${localStorage.getItem("token")}`}
+        });
+        console.log(data);
+      }
+      catch(e) {
+        console.error(e);
+        logOut();
+      }
+      loadLocalList();
       return;
     }
 
@@ -74,6 +85,11 @@ export default function Home(props) {
 
       localStorage.setItem("todoList", JSON.stringify(newList));
       setList(newList);
+    }
+
+    function logOut() {
+      localStorage.removeItem("token");
+      navigate("/login");
     }
 
     return (
