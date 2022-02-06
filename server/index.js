@@ -45,12 +45,9 @@ app.post("/auth", async (req,res)=>{
     return res.json({error: false, message: "Success", token, username});
 });
 
-app.get("/sync", async (req, res)=>{
+app.use("/sync", async (req, res, next)=>{
     const token = req.headers["authorization"]?.match(/^Bearer ([A-Za-z0-9-_.]+)$/)?.[1] || "";
     const username = req.query.username || "";
-
-    console.log(req.headers);
-    console.log(req.params);
 
     if (!token) {
         return res.sendStatus(401); // Unauthorized
@@ -72,17 +69,41 @@ app.get("/sync", async (req, res)=>{
         if (!user) {
             return res.sendStatus(404); // Not found
         }
-        
-        const list = user.todos || [];
 
-        return res.json({todos: list});
+        req.user = user;
+        next();
+    }
+    catch(e){
+        console.error(e);
+        if (e instanceof jwt.JsonWebTokenError) {
+            return res.sendStatus(401); // Unauthorized
+        }
+        return res.sendStatus(500); // Internal server error
+    }
+});
 
+app.get("/sync", async (req, res)=>{
+    const list = req.user.todos || [];
+
+    return res.json({todos: list});
+});
+
+app.post("/sync", async (req, res)=>{
+    const todos = req.body.todos;
+
+    if (!todos) {
+        return res.sendStatus(400);
+    }
+
+    try {
+        req.user.todos = todos;
+        await req.user.save();
+        return res.json(req.user.todos);
     }
     catch(e) {
         console.error(e);
-        return res.sendStatus(401); // Unauthorized
+        return res.sendStatus(500);
     }
-
 });
 
 app.listen(PORT, ()=>{

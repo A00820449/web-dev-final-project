@@ -55,7 +55,8 @@ export default function Home(props) {
         const syncURL = apiURL;
         syncURL.pathname = "/sync";
         await axios.post(syncURL.toString(), { todos }, {
-          headers: {'Authorization': `Bearer ${localStorage.getItem("token")}`}
+          headers: {'Authorization': `Bearer ${localStorage.getItem("token")}`},
+          params: {username: localStorage.getItem("username")}
         })
       }
       catch(e) {
@@ -74,20 +75,21 @@ export default function Home(props) {
       }
     }
 
-    function addItem(item) {
+    async function addItem(item) {
       const newList = [...list, item];
+      await uploadList(newList);
       setList(newList);
     }
   
-    function removeItem(id) {
+    async function removeItem(id) {
       const newList = list.filter(item => item._id !== id);
-  
+      await uploadList(newList);
       setList(newList);
     }
 
-    function setItems(items) {
+    async function setItems(items) {
       const newList = items;
-
+      await uploadList(newList);
       setList(newList);
     }
 
