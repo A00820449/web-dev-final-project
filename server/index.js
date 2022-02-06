@@ -75,7 +75,7 @@ app.get("/sync", async (req, res)=>{
         
         const list = user.todos || [];
 
-        return res.json(list);
+        return res.json({todos: list});
 
     }
     catch(e) {
