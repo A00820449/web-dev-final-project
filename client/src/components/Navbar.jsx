@@ -1,5 +1,5 @@
 import "./Navbar.css"
-import { ThreeBarsIcon } from "@primer/octicons-react";
+import { SyncIcon } from "@primer/octicons-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Navbar(props) {
@@ -12,7 +12,7 @@ export default function Navbar(props) {
 
     return (
         <nav className="Navbar">
-            <button className="btn btn-outline-secondary hamburger"><ThreeBarsIcon size={16}/></button>
+            <button className="btn btn-outline-secondary hamburger"><SyncIcon size={16}/></button>
             <span>Hello, {props.name}!</span>
             <button className="btn btn-outline-danger" onClick={logOut}>Log Out</button>
         </nav>
