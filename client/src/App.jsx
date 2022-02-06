@@ -1,6 +1,7 @@
 import './App.css';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Register from "./pages/Register";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import NotFound from './pages/NotFound';
 
@@ -13,6 +14,7 @@ export default function App() {
         <Route exact path="/" element={<Home apiURL={apiURL} />} />
         <Route path="/index.html" element={<Navigate to="/" />} />
         <Route path="/login" element={<Login apiURL={apiURL} />} />
+        <Route path="/register" element={<Register apiURL={apiURL} />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </Router>
