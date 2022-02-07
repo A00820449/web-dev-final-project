@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
 const { User } = require("./db.js");
 
@@ -43,6 +44,29 @@ app.post("/auth", async (req,res)=>{
     const token = jwt.sign({_id: user._id.toString(), username: user.username, isAdmin: user.isAdmin}, JWT_SECRET, {expiresIn: "30d"});
 
     return res.json({error: false, message: "Success", token, username});
+});
+
+app.post("/register", async (req, res)=>{
+    const password = req.body.password.trim() || "";
+    const username = req.body.username.trim() || "";
+
+    if (!username || !password) {
+        return res.status(400).json({error: true, message: "Invalid request"});
+    }
+
+    try {
+        const newUser = await User.create({username: username});
+        await newUser.setPassword(password);
+        return res.json({error: false, message: "Success", username: newUser.username, id: newUser._id.toString()});
+    }
+    catch(e) {
+        console.log(JSON.stringify(e));
+    
+        if (e.code === 11000) {
+            return res.status(409).json({error: true, message: "Username already exists"});
+        }
+        return res.sendStatus(500);
+    }
 });
 
 app.use("/sync", async (req, res, next)=>{

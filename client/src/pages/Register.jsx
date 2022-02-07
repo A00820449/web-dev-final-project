@@ -1,5 +1,5 @@
-import "./Login.css"
-import { PersonIcon } from "@primer/octicons-react";
+import "./Register.css"
+import { PencilIcon } from "@primer/octicons-react";
 import { useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
@@ -60,15 +60,16 @@ export default function Login(props) {
     }
 
     return (
-        <div className="Login">
-            <div className="circle"><PersonIcon size={128}/></div>
+        <div className="Register">
+            <div className="circle"><PencilIcon size={128}/></div>
             <form onSubmit={formHandler}>
                 <h2>Sign Up</h2>
+                <input type="text" placeholder="Username" className="form-control" required/>
                 <div className="form-group">
-                    <input type="text" ref={usernameInput} className="form-control" placeholder="Username" required/>
-                    <input type="password" ref={passwordInput} className="form-control" placeholder="Password" required/>
+                    <input type="password" ref={usernameInput} className="form-control password1" placeholder="Password" required/>
+                    <input type="password" ref={passwordInput} className="form-control password2" placeholder="Repeat password" required/>
                 </div>
-                <input className="btn btn-lg btn-primary btn-block form-group" type="submit" value="Log in" />
+                <input className="btn btn-lg btn-primary btn-block form-group" type="submit" value="Sign Up" />
                 <hr />
                 <p>Already have an account? Log in here!</p>
                 <Link className="btn btn-lg btn-primary btn-block form-group" to={"/login"}>Log In</Link>

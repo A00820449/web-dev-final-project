@@ -1,4 +1,4 @@
-.Login {
+.Register {
     width: 100vw;
     height: 100vh;
     padding: 0.5rem;
@@ -25,12 +25,19 @@ form {
     width: 100%;
 }
 
-input[type="text"] {
+input.form-control {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+input.form-control.password1 {
     margin-bottom: -1px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 }
-input[type="password"] {
+input.form-control.password2 {
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;

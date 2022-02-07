@@ -25,15 +25,22 @@ form {
     width: 100%;
 }
 
-input[type="text"] {
+input.form-control {
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+input.form-control.username {
     margin-bottom: -1px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 }
-input[type="password"] {
+input.form-control.password {
     margin-bottom: 10px;
-    border-top-left-radius: 0;
     border-top-right-radius: 0;
+    border-top-left-radius: 0;
 }
 
 h2 {

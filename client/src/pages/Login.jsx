@@ -63,12 +63,12 @@ export default function Login(props) {
         <div className="Login">
             <div className="circle"><PersonIcon size={128}/></div>
             <form onSubmit={formHandler}>
-                <h2>Sign Up</h2>
+                <h2>Log In</h2>
                 <div className="form-group">
-                    <input type="text" ref={usernameInput} className="form-control" placeholder="Username" required/>
-                    <input type="password" ref={passwordInput} className="form-control" placeholder="Password" required/>
+                    <input type="text" ref={usernameInput} className="form-control username" placeholder="Username" required/>
+                    <input type="password" ref={passwordInput} className="form-control password" placeholder="Password" required/>
                 </div>
-                <input className="btn btn-lg btn-primary btn-block form-group" type="submit" value="Sign Up" />
+                <input className="btn btn-lg btn-primary btn-block form-group" type="submit" value="Log in" />
                 <hr />
                 <p>Don't have an account? Sign up here!</p>
                 <Link className="btn btn-lg btn-primary btn-block form-group" to={"/register"}>Sign Up</Link>
