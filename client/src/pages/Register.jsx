@@ -9,11 +9,12 @@ export default function Login(props) {
     /**
      * @type {URL}
      */
-    const authURL = props.apiURL;
-    authURL.pathname = "/auth";
+    const registerURL = props.apiURL;
+    registerURL.pathname = "/register";
 
     const usernameInput = useRef(HTMLInputElement);
-    const passwordInput = useRef(HTMLInputElement);
+    const password1Input = useRef(HTMLInputElement);
+    const password2Input = useRef(HTMLInputElement);
     const navigate = useNavigate();
     
     useEffect(()=>{
@@ -21,7 +22,9 @@ export default function Login(props) {
         if (token) {
             navigate("/");
         } 
-    },[navigate]);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []);
 
     /**
      * @param {SubmitEvent} e 
@@ -29,30 +32,33 @@ export default function Login(props) {
     async function formHandler(e) {
         e.preventDefault();
 
-        const username = usernameInput.current.value;
-        const password = passwordInput.current.value;
+        if (password1Input.current.value !== password2Input.current.value) {
+            return alert("The two passwords must match. Try again.");
+        }
+
+        const password = password1Input.current.value.trim();
+        const username = usernameInput.current.value.trim();
 
         try {
-            const { data } = await axios.post(authURL.toString(), {username, password});
+            const { data } = await axios.post(registerURL.toString(), {username, password});
             if (!data.error) {
-                localStorage.setItem("token", data.token);
-                localStorage.setItem("username", data.username);
-                return navigate("/");
+                alert("Sign up successful! Log in to continue.")
+                return navigate("/login");
             }
         }
         catch(e) {
             console.error(e);
 
+            if (!e.response) {
+                return alert("Couldn't reach server. Try again later.")
+            }
+
             if (e.response?.status === 400) {
                 return alert("Bad request");
             }
 
-            if (e.response?.status === 404) {
-                return alert("User not found");
-            }
-
-            if (e.response?.status === 401) {
-                return alert("Incorrect password");
+            if (e.response?.status === 409) {
+                return alert("Username already exists");
             }
 
             return alert("An error occurred. Try again later.");
@@ -64,10 +70,10 @@ export default function Login(props) {
             <div className="circle"><PencilIcon size={128}/></div>
             <form onSubmit={formHandler}>
                 <h2>Sign Up</h2>
-                <input type="text" placeholder="Username" className="form-control" required/>
+                <input type="text" ref={usernameInput} placeholder="Username" className="form-control" required/>
                 <div className="form-group">
-                    <input type="password" ref={usernameInput} className="form-control password1" placeholder="Password" required/>
-                    <input type="password" ref={passwordInput} className="form-control password2" placeholder="Repeat password" required/>
+                    <input type="password" ref={password2Input} className="form-control password1" placeholder="Password" required/>
+                    <input type="password" ref={password1Input} className="form-control password2" placeholder="Repeat password" required/>
                 </div>
                 <input className="btn btn-lg btn-primary btn-block form-group" type="submit" value="Sign Up" />
                 <hr />

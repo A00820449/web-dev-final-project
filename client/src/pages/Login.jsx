@@ -21,7 +21,9 @@ export default function Login(props) {
         if (token) {
             navigate("/");
         } 
-    },[navigate]);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []);
 
     /**
      * @param {SubmitEvent} e 
@@ -29,8 +31,8 @@ export default function Login(props) {
     async function formHandler(e) {
         e.preventDefault();
 
-        const username = usernameInput.current.value;
-        const password = passwordInput.current.value;
+        const username = usernameInput.current.value.trim();
+        const password = passwordInput.current.value.trim();
 
         try {
             const { data } = await axios.post(authURL.toString(), {username, password});
@@ -42,6 +44,10 @@ export default function Login(props) {
         }
         catch(e) {
             console.error(e);
+
+            if (!e.response) {
+                return alert("Couldn't reach server. Try again later.")
+            }
 
             if (e.response?.status === 400) {
                 return alert("Bad request");

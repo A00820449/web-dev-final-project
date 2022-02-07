@@ -60,7 +60,7 @@ app.post("/register", async (req, res)=>{
         return res.json({error: false, message: "Success", username: newUser.username, id: newUser._id.toString()});
     }
     catch(e) {
-        console.log(JSON.stringify(e));
+        console.error(e);
     
         if (e.code === 11000) {
             return res.status(409).json({error: true, message: "Username already exists"});
