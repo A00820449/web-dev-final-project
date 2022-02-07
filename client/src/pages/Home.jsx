@@ -24,6 +24,8 @@ export default function Home(props) {
     
     // Lifecycle hook
     useEffect(()=>{
+      console.log("API URL:", apiURL);
+
       if (!localStorage.getItem("token")) {return navigate("/login");}
       
       downloadList()
