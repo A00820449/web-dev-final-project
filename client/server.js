@@ -3,7 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const path  = require("path");
 
-const PORT = parseInt(process.env.SERVER_PORT) || 3000;
+const PORT = parseInt(process.env.DEPLOY_PORT) || 3000;
 const BUILD_DIR = path.resolve(__dirname, "build");
 const INDEX_FILE = path.resolve(BUILD_DIR, "index.html");
 
