@@ -8,6 +8,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import ErrorScreen from '../components/ErrorScreen';
+import LoadScreen from '../components/LoadScreen';
 
 export default function Home(props) {
     /**
@@ -16,6 +17,7 @@ export default function Home(props) {
     const apiURL = props.apiURL;
 
     const [formToggle, setFormToggle] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [serverOffline, setServerOffline] = useState(false);
     const [list, setList] = useState([]);
     const navigate = useNavigate();
@@ -25,7 +27,7 @@ export default function Home(props) {
       if (!localStorage.getItem("token")) {return navigate("/login");}
       
       downloadList()
-      .then(()=>{})
+      .then(()=>{setLoading(false)})
       .catch(console.error);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -111,6 +113,7 @@ export default function Home(props) {
           </Button>
           {formToggle && (<UploadForm submitCallback={addItem} />)}
         </div>
+        {loading && <LoadScreen />}
         {serverOffline && <ErrorScreen />}
       </div>
     );
